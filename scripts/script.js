@@ -3,7 +3,8 @@ const mario = document.querySelector(".mario");
 const pipe = document.querySelector(".pipe");
 const clouds = document.querySelector(".clouds");
 const JUMP = "jump";
-let score = 0;
+const SAVE_RECORD = 'save_record';
+let score = null;
 
 const jump = (event) => {
   if (event.keyCode === 32) {
@@ -14,22 +15,6 @@ const jump = (event) => {
     }, 500);
   }
 };
-
-
-const attScore = setInterval(() => {
-  const pipePosition = pipe.offsetLeft;
-  const marioPosition = +window
-    .getComputedStyle(mario)
-    .bottom.replace("px", "");
-
-    if(pipePosition < 0){
-        score++; 
-    }
-    
-  if (pipePosition <= 80 && pipePosition > 0 && marioPosition <= 65) {
-    clearInterval(attScore);
-  }
-}, 200);
 
 const loop = setInterval(() => {
   const pipePosition = pipe.offsetLeft;
@@ -51,7 +36,11 @@ const loop = setInterval(() => {
     clouds.style.animation = "none";
     clouds.style.left = `${cloudsPosition}px`;
 
+    localStorage.setItem(SAVE_RECORD, score)
+
     clearInterval(loop);
+  } else {
+    if (pipePosition < 0) return score++;
   }
 }, 10);
 
@@ -64,9 +53,8 @@ const scoreboard = () => {
   gameBoard.appendChild(classificationElement);
 };
 
-
 const inicializar = () => {
-    scoreboard();
+  scoreboard();
 };
 
 document.addEventListener("keydown", jump);
