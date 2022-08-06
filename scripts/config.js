@@ -1,8 +1,5 @@
 const config = document.getElementById("config");
-let LOAD_RECORD =
-  localStorage.getItem(SAVE_RECORD) === null
-    ? 0
-    : localStorage.getItem(SAVE_RECORD);
+let LOAD_RECORD = null;
 
 const createConfig = () => {
   const configElement = document.createElement("div");
@@ -36,19 +33,8 @@ const createConfig = () => {
     h2Value.innerHTML = LOAD_RECORD;
   }, 500);
 
-  // const btnStart = document.createElement('button');
-  // btnStart.id = 'start';
-  // btnStart.onclick =  start();
-  // btnStart.innerHTML = 'Iniciar';
-
   pontuacao.appendChild(h2Title);
   pontuacao.appendChild(h2Value);
-  // pontuacao.appendChild(btnStart);
-
-  // <div class="pontuacao">
-  //     <h2>Última Pontuação</h2>
-  //     <h2>${LOAD_RECORD}</h2>
-  // </div>
 
   configElement.appendChild(pontuacao);
   config.appendChild(configElement);
@@ -61,10 +47,18 @@ setInterval(() => {
       : localStorage.getItem(SAVE_RECORD);
 }, 100);
 
-function start() {
+const startGame = (e) => {
+    if(e.keyCode === 13 && config.style.display !== 'none'){
+        start()
+    }
+}
+
+const start = () => {
   config.style.display = "none";
   score = 0;
   teste();
 }
 
+
+document.addEventListener('keydown', startGame)
 document.addEventListener("DOMContentLoaded", createConfig);
