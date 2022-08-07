@@ -59,13 +59,13 @@ const game = () => {
       }
       config.style.zIndex = "1";
       gameBoard.style.zIndex = "-1";
-      tableElement.style.display = "none"
+      tableElement.style.display = "none";
       clearInterval(loop);
     } else {
       if (pipePosition < 0) return score++;
-      tableElement.style.display = "inline-block"
+      tableElement.style.display = "inline-block";
     }
-  }, 20);
+  }, 10);
 
   document.addEventListener("keydown", jump);
 };

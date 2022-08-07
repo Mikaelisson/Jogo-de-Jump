@@ -118,6 +118,7 @@ body{
 
 .table-element{
     position: absolute;
+    display: none;
     right: 25px;
 }
 
