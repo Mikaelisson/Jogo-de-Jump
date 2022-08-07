@@ -1,14 +1,15 @@
-const gameBoard = document.getElementById("gameBoard");
 const mario = document.querySelector(".mario");
 const pipe = document.querySelector(".pipe");
 const clouds = document.querySelector(".clouds");
-const JUMP = "jump";
 const SAVE_RECORD = "save_record";
 var score = null;
-const ANIMATION_PIPE = "pipe-animation 2s infinite linear"
-const ANIMATION_CLOUDS = "clouds-animation 10s linear infinite"
+let LOAD_RECORD = null;
 
-function teste() {
+const game = () => {
+  const ANIMATION_PIPE = "pipe-animation 2s infinite linear";
+  const ANIMATION_CLOUDS = "clouds-animation 10s linear infinite";
+  const JUMP = "jump";
+
   pipe.style.animation = ANIMATION_PIPE;
   pipe.style.left = "";
 
@@ -56,23 +57,45 @@ function teste() {
       } else {
         localStorage.setItem(SAVE_RECORD, score);
       }
-      config.style.display = "flex";
+      config.style.zIndex = "1";
+      gameBoard.style.zIndex = "-1";
+      tableElement.style.display = "none"
       clearInterval(loop);
     } else {
       if (pipePosition < 0) return score++;
+      tableElement.style.display = "inline-block"
     }
-  }, 10);
+  }, 20);
 
   document.addEventListener("keydown", jump);
-}
-
-const scoreboard = () => {
-  const classificationElement = document.createElement("div");
-  classificationElement.classList.add("classification");
-  setInterval(() => {
-    classificationElement.innerHTML = score;
-  }, 200);
-  gameBoard.appendChild(classificationElement);
 };
 
-document.addEventListener("DOMContentLoaded", scoreboard);
+setInterval(() => {
+  LOAD_RECORD =
+    localStorage.getItem(SAVE_RECORD) === null
+      ? 0
+      : localStorage.getItem(SAVE_RECORD);
+}, 100);
+
+const startGame = (e) => {
+  if (e.keyCode === 13 && config.style.zIndex !== "-1") {
+    restart();
+  }
+};
+
+const restart = () => {
+  config.style.zIndex = "-1";
+  gameBoard.style.zIndex = "1";
+  score = 0;
+  game();
+};
+
+const lastScoreAnimation = (h2Title) => {
+  if (config.style.zIndex === "-1") {
+    h2Title.classList.add("last-score");
+  } else {
+    h2Title.classList.remove("last-score");
+  }
+};
+
+document.addEventListener("keydown", startGame);

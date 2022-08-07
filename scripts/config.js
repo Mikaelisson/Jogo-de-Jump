@@ -1,5 +1,6 @@
 const config = document.getElementById("config");
-let LOAD_RECORD = null;
+const gameBoard = document.getElementById("gameBoard");
+const tableElement = document.createElement("div");
 
 const createConfig = () => {
   const configElement = document.createElement("div");
@@ -19,13 +20,31 @@ const createConfig = () => {
       ><span style="color: aqua">a</span><span style="color: green">r</span
       ><span style="color: red">i</span><span style="color: green">o</span>
     </h1>
-     <button id="start" onclick="start()">Iniciar</button>
+     <button id="start" onclick="restart()">Iniciar</button>
+     <p class="text-key-shortcut">Clique ou pressione a tecla ENTER</p>
     `;
 
+  configElement.appendChild(punctuation());
+  config.appendChild(configElement);
+};
+
+const scoreboard = () => {
+  const classificationElement = document.createElement("div");
+  classificationElement.classList.add("classification");
+  setInterval(() => {
+    classificationElement.innerHTML = score;
+  }, 200);
+  gameBoard.appendChild(classificationElement);
+};
+
+const punctuation = () => {
   const pontuacao = document.createElement("div");
   pontuacao.classList.add("pontuacao");
 
   const h2Title = document.createElement("h2");
+  setInterval(() => {
+    lastScoreAnimation(h2Title);
+  }, 500);
   h2Title.innerHTML = "Última Pontuação";
 
   const h2Value = document.createElement("h2");
@@ -35,30 +54,19 @@ const createConfig = () => {
 
   pontuacao.appendChild(h2Title);
   pontuacao.appendChild(h2Value);
-
-  configElement.appendChild(pontuacao);
-  config.appendChild(configElement);
+  return pontuacao;
 };
 
-setInterval(() => {
-  LOAD_RECORD =
-    localStorage.getItem(SAVE_RECORD) === null
-      ? 0
-      : localStorage.getItem(SAVE_RECORD);
-}, 100);
+const initializeContent = () => {
+  createConfig();
+  scoreboard();
 
-const startGame = (e) => {
-    if(e.keyCode === 13 && config.style.display !== 'none'){
-        start()
-    }
-}
+  const scoreTable = setInterval(() => {
+    tableElement.classList.add("table-element");
+    tableElement.appendChild(punctuation());
+    gameBoard.appendChild(tableElement);
+    clearInterval(scoreTable);
+  }, 100);
+};
 
-const start = () => {
-  config.style.display = "none";
-  score = 0;
-  teste();
-}
-
-
-document.addEventListener('keydown', startGame)
-document.addEventListener("DOMContentLoaded", createConfig);
+document.addEventListener("DOMContentLoaded", initializeContent);

@@ -39,18 +39,23 @@ body{
 }
 
 .clouds{
-    width: 500px;
+    width: 600px;
     position: absolute;
-    top: 20px;
+    top: 50px;
     animation: clouds-animation 10s linear infinite;
 }
 
 .classification{
-    font-size: 5rem;
+    font-size: 8rem;
     font-weight: 700;
     position: absolute;
-    top: 0;
-    right: 10px;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgb(0, 0, 0, 0.5);
+    padding: 0 20px; 
+    border-radius: 10px;
+    color: white;
 }
 
 .config-element{
@@ -82,7 +87,7 @@ body{
     font-weight: 700;
     padding: 10px 25px;
     border-radius: 5px;
-    margin-top: 10px;
+    margin-top: 20px;
     border: none;
     cursor: pointer;
     background-color: red;
@@ -93,12 +98,28 @@ body{
     text-shadow: 0 0 10px black;
     font-size: 1.5rem;
     font-weight: 100;
-    margin: 5px 0;
-    text-align: center;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     padding: 20px;
     border-radius: 5px;
+    box-shadow: rgb(0, 0, 0, 0.5) 0 0 10px;
+    background-color: rgba(0, 204, 255, 0.2);
 }
 
+.text-key-shortcut{
+    margin-top: 25px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    animation: key-shortcut 1s alternate infinite ease;
+}
+
+.table-element{
+    position: absolute;
+    right: 25px;
+}
 
 @keyframes pipe-animation {
     from{
@@ -135,5 +156,15 @@ body{
 
     to{
         right: 100%;
+    }
+}
+
+@keyframes key-shortcut{
+    from{
+        opacity: 0;
+    }
+
+    to{
+        opacity: 1;
     }
 }
